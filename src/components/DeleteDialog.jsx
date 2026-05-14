@@ -1,0 +1,51 @@
+"use client";
+import {AlertDialog, Button} from "@heroui/react";
+import { redirect } from "next/navigation";
+import { IoTrashBin } from "react-icons/io5";
+
+const DeleteDialog = ({data}) => {
+    const {destinationName, _id} = data;
+    const handleDelete = async () =>{
+        const res = await fetch(`http://localhost:5000/destination/${_id}`,{
+            method: 'DELETE',
+            headers:{
+                'content-type': 'application/json'
+            }
+        })
+
+        const result = await res.json();
+        redirect('/destinations');
+    }
+    return (
+        <AlertDialog>
+      <Button className={'text-red-500 rounded-none'} variant="outline"><IoTrashBin /> Delete</Button>
+      <AlertDialog.Backdrop>
+        <AlertDialog.Container>
+          <AlertDialog.Dialog className="sm:max-w-100">
+            <AlertDialog.CloseTrigger />
+            <AlertDialog.Header>
+              <AlertDialog.Icon status="danger" />
+              <AlertDialog.Heading>Delete destination permanently?</AlertDialog.Heading>
+            </AlertDialog.Header>
+            <AlertDialog.Body>
+              <p>
+                This will permanently delete <strong>{destinationName}</strong> and all of its
+                data. This action cannot be undone.
+              </p>
+            </AlertDialog.Body>
+            <AlertDialog.Footer>
+              <Button slot="close" variant="tertiary">
+                Cancel
+              </Button>
+              <Button onClick={handleDelete} slot="close" variant="danger">
+                Confirm Delete
+              </Button>
+            </AlertDialog.Footer>
+          </AlertDialog.Dialog>
+        </AlertDialog.Container>
+      </AlertDialog.Backdrop>
+    </AlertDialog>
+    );
+};
+
+export default DeleteDialog;
