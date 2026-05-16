@@ -5,9 +5,7 @@ import React from 'react';
 import BookingCancelAlert from './BookingCancelAlert';
 
 const MyBookingCard = ({booking}) => {
-    const handleDelete = () =>{
-
-    }
+    
     return (
         <div key={booking._id} className='p-6 gap-10 grid grid-cols-3 border '>
             <div>
@@ -22,7 +20,7 @@ const MyBookingCard = ({booking}) => {
             </div>
             <div className='flex justify-end gap-3 items-end'>
                 <BookingCancelAlert booking={booking}/>
-                <Link href={`/destinations/${booking._id}`}><Button className={'bg-[#15A1BF] text-white rounded-none'}>View</Button></Link>
+                <Link href={`/destinations/${booking?.destinationId}`}><Button className={'bg-[#15A1BF] text-white rounded-none'}>View</Button></Link>
             </div>
 
         </div>

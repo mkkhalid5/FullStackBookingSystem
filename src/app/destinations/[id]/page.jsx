@@ -1,6 +1,8 @@
 import BookingCard from '@/components/BookingCard';
 import DeleteDialog from '@/components/DeleteDialog';
 import EditModal from '@/components/EditModal';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -9,7 +11,15 @@ import { LuMapPin } from 'react-icons/lu';
 
 const DestinationDetailsPage = async ({ params }) => {
     const { id } = await params;
-    const res = await fetch(`http://localhost:5000/destination/${id}`);
+    const {token} = await auth.api.getToken({
+        headers: await headers()
+    })
+    console.log('token',token);
+    const res = await fetch(`http://localhost:5000/destination/${id}`, {
+        headers: {
+            authorization: `Bearer ${token}`
+        }
+    });
     const data = await res.json();
     const { imageUrl, destinationName, country, duration, description } = data;
     return (

@@ -8,7 +8,7 @@ const DestinationsPage = async () => {
     const destinations = await res.json();
 
     return (
-        <div className='p- container mx-auto py-20 space-y-10'>
+        <div className='p-5 container mx-auto py-20 space-y-10'>
             <div>
                 <h2 className='text-6xl'>Explore All Destinations</h2>
                 <p className='text-[#6C696D]'>Find your perfect travel experience from our curated collection</p>

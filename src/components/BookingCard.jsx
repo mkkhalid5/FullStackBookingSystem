@@ -2,6 +2,7 @@
 import { authClient } from '@/lib/auth-client';
 import { Button } from '@heroui/react';
 import React from 'react';
+import toast from 'react-hot-toast';
 import { FaArrowRight, FaCheck } from 'react-icons/fa';
 
 const BookingCard = ({ data }) => {
@@ -15,22 +16,30 @@ const BookingCard = ({ data }) => {
             userId: user?.id,
             userName: user?.name,
             userImage: user?.image,
-            _id,
+            destinationId: _id,
             destinationName,
             price,
             imageUrl,
             country,
             departureDate,
         }
+
+        const {data: tokenData} = await authClient.token();
+        console.log('tokendata',tokenData);
+
         const res = await fetch("http://localhost:5000/bookings", {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
+                authorization: `Bearer ${tokenData?.token}`
             },
             body: JSON.stringify(bookingData),
         })
         const data = await res.json();
-        console.log("book",data);
+        if(data?.acknowledged){
+            toast.success('Booking added Successfully!')
+        }
+        
     }
 
 
